@@ -1,0 +1,3 @@
+plugins {
+  dough_component
+}
