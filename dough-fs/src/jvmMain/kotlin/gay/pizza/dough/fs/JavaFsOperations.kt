@@ -39,30 +39,15 @@ object JavaFsOperations : FsOperations {
   override fun <T> readJsonFile(path: FsPath, deserializer: DeserializationStrategy<T>): T =
     Json.decodeFromString(deserializer, readString(path))
 
-  override fun readLines(path: FsPath, block: (String) -> Unit) {
-    readLines(path).forEach(block)
-  }
-
   override fun readLines(path: FsPath): Sequence<String> {
     val stream = path.toJavaPath().bufferedReader()
     return stream.lineSequence()
   }
 
-  override fun <T> readJsonLinesToList(path: FsPath, deserializer: DeserializationStrategy<T>, block: (T) -> Unit) {
-    readLines(path) { line ->
-      val trimmed = line.trim()
-      val item = Json.decodeFromString(deserializer, trimmed)
-      block(item)
+  override fun <T> readJsonLines(path: FsPath, deserializer: DeserializationStrategy<T>): Sequence<T> =
+    readLines(path).map { line -> line.trim() }.map { line ->
+      Json.decodeFromString(deserializer, line)
     }
-  }
-
-  override fun <T> readJsonLinesToList(path: FsPath, deserializer: DeserializationStrategy<T>): List<T> {
-    val results = mutableListOf<T>()
-    readJsonLinesToList(path, deserializer) { item ->
-      results.add(item)
-    }
-    return results
-  }
 
   override fun writeString(path: FsPath, content: String): Unit = Files.writeString(path.toJavaPath(), content).run {}
   override fun writeAllBytes(path: FsPath, bytes: ByteArray): Unit = Files.write(path.toJavaPath(), bytes).run {}

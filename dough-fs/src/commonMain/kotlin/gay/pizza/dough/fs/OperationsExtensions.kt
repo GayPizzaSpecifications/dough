@@ -45,20 +45,20 @@ fun FsPath.readBytesChunked(block: (ByteArray, Int) -> Unit) =
 fun <T> FsPath.readJsonFile(deserializer: DeserializationStrategy<T>): T =
   operations.readJsonFile(this, deserializer)
 
-fun FsPath.readLines(block: (String) -> Unit): Unit =
-  operations.readLines(this, block)
-
 fun FsPath.readLines(): Sequence<String> =
   operations.readLines(this)
 
-fun FsPath.readLinesToList(): List<String> {
-  val lines = mutableListOf<String>()
-  readLines { line -> lines.add(line) }
-  return lines
-}
+fun FsPath.readLines(block: (String) -> Unit): Unit =
+  operations.readLines(this, block)
 
-fun <T> FsPath.readJsonLinesToList(deserializer: DeserializationStrategy<T>, block: (T) -> Unit) =
-  operations.readJsonLinesToList(this, deserializer, block)
+fun FsPath.readLinesToList(): List<String> =
+  operations.readLinesToList(this)
+
+fun <T> FsPath.readJsonLines(deserializer: DeserializationStrategy<T>): Sequence<T> =
+  operations.readJsonLines(this, deserializer)
+
+fun <T> FsPath.readJsonLines(deserializer: DeserializationStrategy<T>, block: (T) -> Unit) =
+  operations.readJsonLines(this, deserializer, block)
 
 fun <T> FsPath.readJsonLinesToList(deserializer: DeserializationStrategy<T>): List<T> =
   operations.readJsonLinesToList(this, deserializer)

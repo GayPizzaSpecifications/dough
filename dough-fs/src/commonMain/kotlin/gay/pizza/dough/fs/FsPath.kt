@@ -2,7 +2,7 @@ package gay.pizza.dough.fs
 
 import kotlinx.serialization.Serializable
 
-@Serializable(with = FsPathSerializer::class)
+@Serializable(with = DefaultFsPathSerializer::class)
 interface FsPath : Comparable<FsPath> {
   val fullPathString: String
   val entityNameString: String
