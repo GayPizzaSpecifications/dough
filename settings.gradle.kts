@@ -1,2 +1,6 @@
 rootProject.name = "dough"
-include("dough-fs")
+
+include(
+  "dough-core",
+  "dough-fs"
+)

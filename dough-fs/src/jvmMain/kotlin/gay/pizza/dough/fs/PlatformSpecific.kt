@@ -1,7 +1,5 @@
 package gay.pizza.dough.fs
 
-import java.nio.file.Paths
+import java.nio.file.FileSystems
 
-actual fun FsPath(path: String): FsPath {
-  return JavaPath(Paths.get(path))
-}
+actual val PlatformFsProvider: FsProvider = JavaFsProvider(FileSystems.getDefault())

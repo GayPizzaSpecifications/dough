@@ -1,5 +1,7 @@
 package gay.pizza.dough.fs
 
+import gay.pizza.dough.core.time.UnixTime
+import gay.pizza.dough.core.toUnixTime
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
@@ -11,6 +13,7 @@ import kotlin.streams.asSequence
 
 object JavaFsOperations : FsOperations {
   override fun exists(path: FsPath): Boolean = Files.exists(path.toJavaPath())
+
   override fun isDirectory(path: FsPath): Boolean = Files.isDirectory(path.toJavaPath())
   override fun isRegularFile(path: FsPath): Boolean = Files.isRegularFile(path.toJavaPath())
   override fun isSymbolicLink(path: FsPath): Boolean = Files.isSymbolicLink(path.toJavaPath())
@@ -18,10 +21,12 @@ object JavaFsOperations : FsOperations {
   override fun isWritable(path: FsPath): Boolean = Files.isWritable(path.toJavaPath())
   override fun isExecutable(path: FsPath): Boolean = Files.isExecutable(path.toJavaPath())
 
+  override fun lastModified(path: FsPath): UnixTime = Files.getLastModifiedTime(path.toJavaPath()).toUnixTime()
+
   override fun list(path: FsPath): Sequence<FsPath> = Files.list(path.toJavaPath()).asSequence().map { it.toFsPath() }
 
   override fun walk(path: FsPath): Sequence<FsPath> = Files.walk(path.toJavaPath()).asSequence().map { it.toFsPath() }
-  override fun visit(path: FsPath, visitor: FsPathVisitor) =
+  override fun visit(path: FsPath, visitor: FsPathVisitor): Unit =
     Files.walkFileTree(path.toJavaPath(), JavaFsPathVisitorAdapter(visitor)).run {}
 
   override fun readString(path: FsPath): String = Files.readString(path.toJavaPath())

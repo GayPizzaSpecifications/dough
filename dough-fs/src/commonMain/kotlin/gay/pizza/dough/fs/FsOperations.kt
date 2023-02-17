@@ -1,16 +1,20 @@
 package gay.pizza.dough.fs
 
+import gay.pizza.dough.core.time.UnixTime
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.SerializationStrategy
 
 interface FsOperations {
   fun exists(path: FsPath): Boolean
+
   fun isDirectory(path: FsPath): Boolean
   fun isRegularFile(path: FsPath): Boolean
   fun isSymbolicLink(path: FsPath): Boolean
   fun isReadable(path: FsPath): Boolean
   fun isWritable(path: FsPath): Boolean
   fun isExecutable(path: FsPath): Boolean
+
+  fun lastModified(path: FsPath): UnixTime
 
   fun list(path: FsPath): Sequence<FsPath>
 

@@ -1,3 +1,3 @@
 package gay.pizza.dough.fs
 
-expect fun FsPath(path: String): FsPath
+expect val PlatformFsProvider: FsProvider
