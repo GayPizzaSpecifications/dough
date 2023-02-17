@@ -6,11 +6,11 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-open class FsPathSerializer(val construct: (String) -> FsPath) : KSerializer<FsPath> {
+open class FsPathSerializer(val resolver: FsPathResolver) : KSerializer<FsPath> {
   override val descriptor: SerialDescriptor = String.serializer().descriptor
 
   override fun deserialize(decoder: Decoder): FsPath {
-    return construct(decoder.decodeString())
+    return resolver.resolve(decoder.decodeString())
   }
 
   override fun serialize(encoder: Encoder, value: FsPath) {

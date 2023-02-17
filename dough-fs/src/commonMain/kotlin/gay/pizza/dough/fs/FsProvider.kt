@@ -1,8 +1,6 @@
 package gay.pizza.dough.fs
 
-interface FsProvider {
+interface FsProvider : FsPathResolver {
   val currentWorkingDirectory: FsPath
   val operations: FsOperations
-
-  fun resolve(path: String): FsPath
 }
