@@ -23,13 +23,18 @@ tasks.withType<KotlinCompile> {
 
 kotlin {
   jvm()
+  js {
+    useCommonJs()
+
+    nodejs()
+  }
 
   sourceSets {
     commonMain {
       dependencies {
         api("org.jetbrains.kotlin:kotlin-bom")
         api("org.jetbrains.kotlin:kotlin-stdlib")
-        api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+        api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
       }
     }
   }

@@ -1,13 +1,22 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinJvmCompilation
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsExec
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 
 plugins {
   id("dough_base")
 }
 
-val jvmMain = kotlin.targets.getByName<KotlinJvmTarget>("jvm").compilations.getByName("main")
+val jvmMain: KotlinJvmCompilation =
+  kotlin.targets.getByName<KotlinJvmTarget>("jvm").compilations.getByName("main")
+
+kotlin {
+  js {
+    binaries.executable()
+  }
+}
 
 tasks {
-  val sampleJar = register<Jar>("sampleJar") {
+  val sampleJar = register<Jar>("jvmSampleJar") {
     group = "application"
 
     manifest {
@@ -22,7 +31,7 @@ tasks {
     })
   }
 
-  register<JavaExec>("runSample") {
+  register<JavaExec>("jvmSampleRun") {
     group = "application"
 
     mainClass.set("MainKt")
@@ -31,4 +40,7 @@ tasks {
   }
 
   assemble.get().dependsOn(sampleJar)
+
+  val jsNodeRun = tasks.getByName("jsNodeRun") as NodeJsExec
+  jsNodeRun.workingDir(projectDir)
 }

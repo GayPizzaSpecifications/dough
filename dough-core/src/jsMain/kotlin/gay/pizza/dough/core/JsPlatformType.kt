@@ -6,18 +6,16 @@ enum class JsPlatformType {
   Unknown;
 
   companion object {
-    fun current(): JsPlatformType {
-      val isWindowAvailable = js("typeof window") != undefined
-      val isProcessAvailable = js("typeof process") != undefined
+    val current: JsPlatformType
+      get() {
+        val isWindowAvailable = js("typeof window") != undefined
+        val isProcessAvailable = js("typeof process") != undefined
 
-      if (isProcessAvailable) {
-        return Nodejs
+        return when {
+          isProcessAvailable -> Nodejs
+          isWindowAvailable -> Browser
+          else -> Unknown
+        }
       }
-
-      if (isWindowAvailable) {
-        return Browser
-      }
-      return Unknown
-    }
   }
 }
