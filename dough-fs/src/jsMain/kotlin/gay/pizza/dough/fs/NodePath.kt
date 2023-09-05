@@ -2,7 +2,9 @@ package gay.pizza.dough.fs
 
 import gay.pizza.dough.fs.nodefs.NodePathModule
 
-class NodePath(override val fullPathString: String) : FsPath {
+class NodePath(fullPathString: String) : FsPath {
+  override val fullPathString: String = NodePathModule.resolve(fullPathString)
+
   override val entityNameString: String
   get() = NodePathModule.baseName(fullPathString)
   override val parent: FsPath

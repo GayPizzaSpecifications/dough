@@ -4,7 +4,9 @@ import java.nio.file.Path
 import java.util.*
 import kotlin.io.path.relativeTo
 
-class JavaPath(val javaPath: Path) : FsPath {
+class JavaPath(path: Path) : FsPath {
+  val javaPath: Path = path.toAbsolutePath()
+
   override val fullPathString: String
     get() = javaPath.toString()
 
