@@ -3,6 +3,9 @@ package gay.pizza.dough.fs.nodefs
 @JsModule("node:path")
 @JsNonModule
 external object NodePathModule {
+  @JsName("sep")
+  val separator: String
+
   @JsName("basename")
   fun baseName(path: String): String
 
