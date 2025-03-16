@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -18,7 +19,9 @@ java {
 }
 
 tasks.withType<KotlinCompile> {
-  kotlinOptions.jvmTarget = "17"
+  compilerOptions {
+    jvmTarget = JvmTarget.JVM_17
+  }
 }
 
 kotlin {
@@ -34,7 +37,7 @@ kotlin {
       dependencies {
         api("org.jetbrains.kotlin:kotlin-bom")
         api("org.jetbrains.kotlin:kotlin-stdlib")
-        api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+        api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
       }
     }
   }
